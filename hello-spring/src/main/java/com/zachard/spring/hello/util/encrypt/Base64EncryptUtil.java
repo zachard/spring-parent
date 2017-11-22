@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.zachard.spring.hello.util;
+package com.zachard.spring.hello.util.encrypt;
 
 import java.util.Base64;
 

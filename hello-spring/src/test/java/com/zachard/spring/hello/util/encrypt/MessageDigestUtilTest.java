@@ -14,13 +14,15 @@
  *    limitations under the License.
  */
 
-package com.zachard.spring.hello.util;
+package com.zachard.spring.hello.util.encrypt;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import org.junit.Test;
+
+import com.zachard.spring.hello.util.encrypt.MessageDigestUtil;
 
 /**
  * {@link MessageDigest}信息摘要算法加密工具测试类

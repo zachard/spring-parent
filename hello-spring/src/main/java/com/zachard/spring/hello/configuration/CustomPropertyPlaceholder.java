@@ -21,7 +21,7 @@ import java.util.Objects;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
 import com.zachard.spring.hello.constant.EncryptKeyConstant;
-import com.zachard.spring.hello.util.Base64EncryptUtil;
+import com.zachard.spring.hello.util.encrypt.Base64EncryptUtil;
 
 /**
  * 自定义属性配置文件解析器

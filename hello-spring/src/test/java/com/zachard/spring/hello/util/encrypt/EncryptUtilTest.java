@@ -14,11 +14,13 @@
  *    limitations under the License.
  */
 
-package com.zachard.spring.hello.util;
+package com.zachard.spring.hello.util.encrypt;
 
 import java.util.Base64;
 
 import org.junit.Test;
+
+import com.zachard.spring.hello.util.encrypt.Base64EncryptUtil;
 
 /**
  * 加密工具测试类
