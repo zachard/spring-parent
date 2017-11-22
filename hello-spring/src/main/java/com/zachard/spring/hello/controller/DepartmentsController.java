@@ -18,10 +18,11 @@ package com.zachard.spring.hello.controller;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zachard.spring.hello.model.Departments;
 import com.zachard.spring.hello.service.DepartmentsService;
@@ -34,7 +35,7 @@ import com.zachard.spring.hello.service.DepartmentsService;
  * @author zachard
  * @version 1.0.0
  */
-@RestController
+@Controller
 @RequestMapping("/department")
 public class DepartmentsController {
 
@@ -48,6 +49,7 @@ public class DepartmentsController {
 	 * @return          部门信息
 	 */
 	@RequestMapping(value = "/{deptNo}", method = {RequestMethod.GET})
+	@ResponseBody
 	public Departments query(@PathVariable("deptNo") String deptNo) {
 		return departmentsService.queryByNo(deptNo);
 	}
