@@ -21,7 +21,7 @@ import java.util.Objects;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
 import com.zachard.spring.hello.constant.EncryptKeyConstant;
-import com.zachard.spring.hello.util.EncryptUtil;
+import com.zachard.spring.hello.util.Base64EncryptUtil;
 
 /**
  * 自定义属性配置文件解析器
@@ -45,7 +45,7 @@ public class CustomPropertyPlaceholder extends PropertyPlaceholderConfigurer {
 	protected String convertProperty(String propertyName, String propertyValue) {
 		
 		if(Objects.equals(propertyName, EncryptKeyConstant.JDBC_PASSWORD)) {
-			return EncryptUtil.decryptByBase64(propertyValue);
+			return Base64EncryptUtil.decode(propertyValue);
 		}
 		
 		return propertyValue;

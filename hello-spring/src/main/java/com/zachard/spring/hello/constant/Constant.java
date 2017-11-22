@@ -14,38 +14,16 @@
  *    limitations under the License.
  */
 
-package com.zachard.spring.hello.util;
-
-import java.util.Base64;
-
-import org.junit.Test;
+package com.zachard.spring.hello.constant;
 
 /**
- * 加密工具测试类
+ * 项目全局常量接口
  * <pre>
  * </pre>
  *
  * @author zachard
  * @version 1.0.0
  */
-public class EncryptUtilTest {
-	
-	/**
-	 * 测试{@link Base64}解密密文
-	 */
-	@Test
-	public void decryptByBase64Test() {
-		String encode = "enB6ZW5n";
-		System.err.println("解密后的原文为: " + Base64EncryptUtil.decode(encode));
-	}
-	
-	/**
-	 * 测试{@link Base64}加密原文
-	 */
-	@Test
-	public void encodeByBase64Test() {
-		String source = "zpzeng";
-		System.err.println("加密后的密文为: " + Base64EncryptUtil.encode(source));
-	}
+public interface Constant {
 
 }

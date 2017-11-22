@@ -19,32 +19,37 @@ package com.zachard.spring.hello.util;
 import java.util.Base64;
 
 /**
- * 加密工具类
+ * 采用{@link Base64}实现字符串的编码与解码
  * <pre>
+ *     通过Base64实现字符串的编码与解码
+ *     注意事项: (1) 只有JDK 1.8版本开始才存在
+ *              (2) Base64的定义: 被设计用于把任意8位字节描述为一种不易被人直接识别的形式
+ *              (3) Base64一般用于编码/解码,而不用于密码加密与解密
  * </pre>
  *
  * @author zachard
  * @version 1.0.0
+ * @since 1.8
  */
-public class EncryptUtil {
+public class Base64EncryptUtil {
 
 	/**
-	 * 通过{@link Base64}对字符串进行加密
+	 * 通过{@link Base64}对字符串进行解码
 	 * 
-	 * @param value    需要加密的原文
-	 * @return         加密后的字符串
+	 * @param value    需要解码的字符串
+	 * @return         解码后的原字符串
 	 */
-	public static String decryptByBase64(String value) {
+	public static String decode(String value) {
 		return new String(Base64.getDecoder().decode(value));
 	}
 	
 	/**
-	 * 通过{@link Base64}对密文进行解密
+	 * 通过{@link Base64}对字符串进行编码
 	 * 
-	 * @param value    已加密的密文
-	 * @return         解密后的字符串
+	 * @param value    需要进行编码的字符串
+	 * @return         编码后的字符串
 	 */
-	public static String encodeByBase64(String value) {
+	public static String encode(String value) {
 		
 		if (value == null) {
 			throw new IllegalArgumentException("参数不能为空");
