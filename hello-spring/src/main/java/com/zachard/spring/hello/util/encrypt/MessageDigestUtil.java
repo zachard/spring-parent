@@ -20,6 +20,8 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import sun.misc.BASE64Encoder;
+
 /**
  * {@link MessageDigest}信息摘要算法加密工具类
  * <pre>
@@ -86,7 +88,7 @@ public class MessageDigestUtil {
 		MessageDigest md5 = MessageDigest.getInstance(algorithm);
 		md5.update(data.getBytes(ENCODE));
 		
-		return new String(md5.digest(), ENCODE);
+		return new BASE64Encoder().encode(md5.digest());
 	}
 
 }
