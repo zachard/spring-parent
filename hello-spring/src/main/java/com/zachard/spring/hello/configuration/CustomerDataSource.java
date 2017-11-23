@@ -14,39 +14,37 @@
  *    limitations under the License.
  */
 
-package com.zachard.spring.hello.service.impl;
+package com.zachard.spring.hello.configuration;
 
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
-import com.zachard.spring.hello.mapper.DepartmentsMapper;
-import com.zachard.spring.hello.model.Departments;
-import com.zachard.spring.hello.service.DepartmentsService;
+import org.apache.commons.dbcp.BasicDataSource;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 
 /**
- * 部门Service处理实现类
+ * 自定义数据源对象
+ * 
  * <pre>
  * </pre>
  *
  * @author zachard
  * @version 1.0.0
  */
-@Service
-public class DepartmentsServiceImpl implements DepartmentsService {
-	
-	@Resource
-	private DepartmentsMapper departmentsMapper;
-	
+public class CustomerDataSource extends BasicDataSource implements InitializingBean, DisposableBean {
+
 	/**
-	 * 根据部门编号查询部门信息
-	 * 
-	 * @param deptNo    部门编号
-	 * @return          部门信息
+	 * 实现{@link DisposableBean}接口, 容器销毁时, 关闭数据源
 	 */
 	@Override
-	public Departments queryByNo(String deptNo) {
-		return departmentsMapper.queryByNo(deptNo);
+	public void destroy() throws Exception {
+		super.close();
+	}
+
+	/**
+	 * 实现{@link InitializingBean}接口, 容器创建时, 创建数据源
+	 */
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		super.createDataSource();
 	}
 
 }

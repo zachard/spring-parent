@@ -42,7 +42,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	 * </pre>
 	 */
 	private static final String ROLE_USER = "USER";
-	private static final String ROLE_AMAIN = "AMAIN";
+	private static final String ROLE_AMAIN = "ADMIN";
 	private static final String ROLE_DBA = "DBA";
 	
 	/**

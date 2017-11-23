@@ -39,7 +39,7 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @Configuration
 @ComponentScan({"com.zachard.spring.hello.*"})
-@Import({SpringSecurityConfig.class})
+@Import({SpringSecurityConfig.class, DataSourceConfiguration.class, MyBatisConfig.class, MyBatisMapperScannerConfig.class})
 public class AppConfig {
 	
 	/**

@@ -14,39 +14,35 @@
  *    limitations under the License.
  */
 
-package com.zachard.spring.hello.service.impl;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-
-import com.zachard.spring.hello.mapper.DepartmentsMapper;
-import com.zachard.spring.hello.model.Departments;
-import com.zachard.spring.hello.service.DepartmentsService;
+package com.zachard.spring.hello.constant;
 
 /**
- * 部门Service处理实现类
+ * mybatis相关常量
  * <pre>
  * </pre>
  *
  * @author zachard
  * @version 1.0.0
  */
-@Service
-public class DepartmentsServiceImpl implements DepartmentsService {
+public interface MybatisConstant {
 	
-	@Resource
-	private DepartmentsMapper departmentsMapper;
+	String AUTO_MAPPING_BEHAVIOR_VALUE = "autoMappingBehavior";
+	String DEFAULT_EXECUTOR_TYPE_VALUE = "defaultExecutorType";
+	int DEFAULT_STATEMENT_TIMEOUT_VALUE = 2500;
 	
 	/**
-	 * 根据部门编号查询部门信息
-	 * 
-	 * @param deptNo    部门编号
-	 * @return          部门信息
+	 * mybatis映射文件配置
 	 */
-	@Override
-	public Departments queryByNo(String deptNo) {
-		return departmentsMapper.queryByNo(deptNo);
-	}
+	String MYBATIS_MAPPER_RESOURCE_PATH = "classpath:com/zachard/spring/hello/mapper/file/*.xml";
+	
+	/**
+	 * mybatis别名扫描包
+	 */
+	String MYBATIS_TYPE_ALIASES_PACKAGE = "com.zachard.spring.hello.model";
+	
+	/**
+	 * mapper文件对应类的路径
+	 */
+	String MYBATIS_MAPPER_CLASS_PATH = "com.zachard.spring.hello.mapper";
 
 }

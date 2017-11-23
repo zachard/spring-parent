@@ -25,5 +25,7 @@ package com.zachard.spring.hello.constant;
  * @version 1.0.0
  */
 public interface Constant {
-
+	
+	String DB_FILE_NAME = "jdbc";
+	
 }
