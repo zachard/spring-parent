@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 项目首页处理控制器
+ * Spring Security 示例相关Controller
  * <pre>
  * </pre>
  *
@@ -30,7 +30,8 @@ import org.springframework.web.servlet.ModelAndView;
  * @version 1.0.0
  */
 @Controller
-public class HelloController {
+@RequestMapping("/security")
+public class SecurityController {
 	
 	/**
 	 * Spring Security 入门示例, 没有访问限制的请求URL
@@ -57,6 +58,21 @@ public class HelloController {
 		ModelAndView model = new ModelAndView();
 		model.addObject("title", "Spring Security 安全入门");
 		model.addObject("message", "欢迎,这是系统管理员页面!");
+		model.setViewName("admin");
+
+		return model;
+	}
+	
+	/**
+	 * Spring Security 入门示例, 特定角色访问(权限限制)的URL示例
+	 * 
+	 * @return    逻辑视图名称
+	 */
+	@RequestMapping(value = "/dba", method = RequestMethod.GET)
+	public ModelAndView dba() {
+		ModelAndView model = new ModelAndView();
+		model.addObject("title", "Spring Security 安全入门");
+		model.addObject("message", "欢迎,这是数据库管理员页面!");
 		model.setViewName("admin");
 
 		return model;
