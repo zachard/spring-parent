@@ -41,7 +41,7 @@ import sun.misc.BASE64Encoder;
  */
 public class AESEncryptUtilTest {
 	
-private static AESEncryptUtil aesEncryptUtil;
+	private static AESEncryptUtil aesEncryptUtil;
 	
 	/**
 	 * 加密后的密文

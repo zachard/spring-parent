@@ -1,5 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@page session="true"%>
+<%@page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
 <body>
 	<h1>标题: ${title}</h1>
