@@ -16,6 +16,7 @@
 
 package com.zachard.spring.hello.util.encrypt;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.Security;
 
@@ -23,8 +24,13 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.springframework.beans.factory.annotation.Value;
 
 import com.sun.crypto.provider.SunJCE;
+
+import sun.misc.BASE64Decoder;
 
 /**
  * <code>AES</code>高级标准对称加密算法
@@ -38,6 +44,9 @@ public class AESEncryptUtil extends AbstractSymmetricEncryptUtil {
 	
 	private static final String AES_ALGORITHM = "DES";
 	
+	@Value("${secretKey}")
+	private String keyString;
+	
 	/**
 	 * <code>DES</code>算法加密对应的工具类构造器
 	 * 
@@ -48,11 +57,17 @@ public class AESEncryptUtil extends AbstractSymmetricEncryptUtil {
 	 * 
 	 * @throws NoSuchAlgorithmException
 	 * @throws NoSuchPaddingException
+	 * @throws IOException 
 	 */
-	public AESEncryptUtil() throws NoSuchAlgorithmException, NoSuchPaddingException {
+	public AESEncryptUtil() throws NoSuchAlgorithmException, NoSuchPaddingException, IOException {
 		Security.addProvider(new SunJCE());
-		keyGenerator = KeyGenerator.getInstance(AES_ALGORITHM);
-		secretKey = keyGenerator.generateKey();
+		
+//		keyGenerator = KeyGenerator.getInstance(AES_ALGORITHM);
+//		secretKey = keyGenerator.generateKey();
+		
+		// 生成指定的SecretKey, 而不是随机生成, 避免项目重启之后无法解密
+		byte[] keyBytes = new BASE64Decoder().decodeBuffer(keyString);
+		secretKey = new SecretKeySpec(keyBytes, AES_ALGORITHM);
 		cipher = Cipher.getInstance(AES_ALGORITHM);
 	}
 

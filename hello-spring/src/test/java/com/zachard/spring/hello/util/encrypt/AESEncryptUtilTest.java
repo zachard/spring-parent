@@ -29,6 +29,8 @@ import javax.crypto.SecretKey;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import sun.misc.BASE64Encoder;
+
 /**
  * <code>AES</code>高级标准对称加密算法测试类
  * <pre>
@@ -51,9 +53,11 @@ private static AESEncryptUtil aesEncryptUtil;
 	 * 
 	 * @throws NoSuchAlgorithmException
 	 * @throws NoSuchPaddingException
+	 * @throws IOException 
 	 */
 	@BeforeClass
-	public static void setBeforeClass() throws NoSuchAlgorithmException, NoSuchPaddingException {
+	public static void setBeforeClass() throws NoSuchAlgorithmException, NoSuchPaddingException, IOException {
+		System.setProperty("secretKey", "f8gjOz4x0+8=");
 		aesEncryptUtil = new AESEncryptUtil();
 	}
 	
@@ -72,7 +76,9 @@ private static AESEncryptUtil aesEncryptUtil;
 	@Test
 	public void aesTest() throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException, IOException {
 		encryptTest();
+		//cipherText = "I7wWUv5zwFY=";
 		decryptTest();
+		System.err.println("密钥的Key为: " + new BASE64Encoder().encode(aesEncryptUtil.secretKey.getEncoded()));
 	}
 	
 	/**
