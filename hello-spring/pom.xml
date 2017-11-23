@@ -13,6 +13,10 @@
 	<artifactId>hello-spring</artifactId>
 	<packaging>war</packaging>
 
+	<properties>
+		<jstl.version>1.2</jstl.version>
+	</properties>
+
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
@@ -50,6 +54,16 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
+		</dependency>
+
+		<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
 		</dependency>
 
 		<!-- Mybatis -->
@@ -127,6 +141,13 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
+		</dependency>
+
+		<!-- JSTL -->
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>${jstl.version}</version>
 		</dependency>
 	</dependencies>
 
