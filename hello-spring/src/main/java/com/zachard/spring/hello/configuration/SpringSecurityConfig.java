@@ -46,6 +46,22 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String ROLE_DBA = "DBA";
 	
 	/**
+	 * 配置登录请求、登录成功、登录处理、登录错误的请求URL
+	 * 配置登录表单的用户名密码参数
+	 */
+	private static final String LOGIN_URL = "/security/login";
+	private static final String DEFAULT_TARGET_URL = "/security/index";
+	private static final String LOGIN_PROCESSING_URL = "/j_spring_security_check";
+	private static final String AUTHENTICATION_FAILURE_URL = "/security/login?error";
+	private static final String USERNAME = "username";
+	private static final String PASSWORD = "password";
+	
+	/**
+	 * 配置处理登出成功的请求URL
+	 */
+	private static final String LOGOUT_SUCCESS_URL = "/security/login?logout";
+	
+	/**
 	 * 对Spring Security用户及角色进行管理, 相当于 spring-security.xml 文件中
 	 * <authentication-manager>作用
 	 * 
@@ -66,13 +82,29 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	/**
 	 * 对项目中的URL请求权限进行控制, 相当于 spring-security.xml 文件中的 http 标签作用
+	 * 
+	 * <pre>
+	 *     <code>loginPage</code>函数设置登录请求URL
+	 *     <code>loginProcessingUrl</code>设置登录请求处理URL
+	 *     <code>defaultSuccessUrl</code>设置登录成功的URL
+	 *     <code>failureUrl</code>设置登录失败的URL
+	 *     
+	 *     注: <code>Java</code>类配置与<code>XML</code>配置很相似,只不过这里用了
+	 *         <code>and</code>方法来转换各个对象
+	 * </pre>
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 		    .antMatchers("/security/admin/**").access("hasRole('ROLE_ADMIN')")
 		    .antMatchers("/security/dba/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_DBA')")
-		    .and().formLogin();
+		    .and().formLogin().loginPage(LOGIN_URL)
+		    .loginProcessingUrl(LOGIN_PROCESSING_URL)
+		    .defaultSuccessUrl(DEFAULT_TARGET_URL)
+		    .failureUrl(AUTHENTICATION_FAILURE_URL)
+		    .usernameParameter(USERNAME).passwordParameter(PASSWORD)
+		    .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL)
+		    .and().csrf();
 	}
 
 }

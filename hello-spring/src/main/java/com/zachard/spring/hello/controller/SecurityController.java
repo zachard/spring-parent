@@ -16,9 +16,11 @@
 
 package com.zachard.spring.hello.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -76,6 +78,32 @@ public class SecurityController {
 		model.setViewName("admin");
 
 		return model;
+	}
+	
+	/**
+	 * 处理用户登录、登录失败与退出登录请求
+	 * 
+	 * @param error    登录错误标志
+	 * @param logout   退出登录标志
+	 * @return         请求的逻辑视图
+	 */
+	@RequestMapping(value = "/login", method = {RequestMethod.GET})
+	public ModelAndView login(
+			@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "logout", required = false) String logout) {
+		ModelAndView modelAndView = new ModelAndView();
+		
+		if (StringUtils.isNoneBlank(error)) {
+			modelAndView.addObject("error", "无效的用户名与密码");
+		}
+		
+		if (StringUtils.isNoneBlank(logout)) {
+			modelAndView.addObject("msg", "您已成功退出");
+		}
+		
+		modelAndView.setViewName("login");
+		
+		return modelAndView;
 	}
 
 }
