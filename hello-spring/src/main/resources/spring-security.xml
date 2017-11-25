@@ -15,6 +15,7 @@
 		    login-page="/login" 
 		    default-target-url="/index" 
 		    authentication-failure-url="/Access_Denied" 
+		    authentication-success-handler-ref="securitySuccessUrlHandler" 
 		    username-parameter="username" 
 		    password-parameter="password" />
 		<logout logout-success-url="/login?logout" />
@@ -29,5 +30,7 @@
 	    </user-service>
 	  </authentication-provider>
 	</authentication-manager>
+	
+	<beans:bean id="securitySuccessUrlHandler" class="com.zachard.spring.hello.handler.SecuritySuccessUrlHandler" />
 
 </beans:beans>

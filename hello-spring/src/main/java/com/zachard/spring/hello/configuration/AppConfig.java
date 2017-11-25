@@ -20,7 +20,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
@@ -40,7 +44,7 @@ import org.springframework.web.servlet.view.JstlView;
 @Configuration
 @ComponentScan({"com.zachard.spring.hello.*"})
 @Import({SpringSecurityConfig.class, DataSourceConfiguration.class, MyBatisConfig.class, MyBatisMapperScannerConfig.class})
-public class AppConfig {
+public class AppConfig extends WebMvcConfigurerAdapter {
 	
 	/**
 	 * 配置视图解析器
@@ -56,6 +60,24 @@ public class AppConfig {
 		viewResolver.setSuffix(".jsp");
 		
 		return viewResolver;
+	}
+	
+	/**
+	 * 资源处理映射器(前后端分离不需要考虑)
+	 */
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/static/**").addResourceLocations("/static/");
+	}
+	
+	/**
+	 * 注册一个{@link RedirectStrategy}对象, 与spring-mvc.xml中注册bean对象作用一致
+	 * 
+	 * @return    {@link RedirectStrategy}对象
+	 */
+	@Bean
+	public RedirectStrategy getRedirectStrategy() {
+		return new DefaultRedirectStrategy();
 	}
 
 }

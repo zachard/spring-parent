@@ -53,4 +53,6 @@
 		<property name="maxInMemorySize" value="40960" />
 	</bean>
 	
+	<bean id="redirectStrategy" class="org.springframework.security.web.DefaultRedirectStrategy" />
+	
 </beans>

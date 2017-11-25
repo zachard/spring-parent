@@ -16,11 +16,14 @@
 
 package com.zachard.spring.hello.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+import com.zachard.spring.hello.handler.SecuritySuccessUrlHandler;
 
 /**
  * Spring Security 配置类, 作用类似于 spring-security.xml 文件
@@ -67,6 +70,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String ACCESS_DENIED_URL = "/Access_Denied";
 	
 	/**
+	 * 自定登录成功之后的URL处理器
+	 */
+	@Autowired
+	private SecuritySuccessUrlHandler handler;
+	
+	/**
 	 * 对Spring Security用户及角色进行管理, 相当于 spring-security.xml 文件中
 	 * <authentication-manager>作用
 	 * 
@@ -82,7 +91,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication().withUser("zachard").password("123456").roles(ROLE_USER);
 		auth.inMemoryAuthentication().withUser("admin").password("123456").roles(ROLE_AMAIN);
-		auth.inMemoryAuthentication().withUser("dba").password("123456").roles(ROLE_DBA);
+		auth.inMemoryAuthentication().withUser("dba").password("123456").roles(ROLE_AMAIN, ROLE_DBA);
 	}
 	
 	/**
@@ -93,6 +102,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	 *     <code>loginProcessingUrl</code>设置登录请求处理URL
 	 *     <code>defaultSuccessUrl</code>设置登录成功的URL(想登录之后打开登录之前的页面,应该去除这个属性)
 	 *     <code>failureUrl</code>设置登录失败的URL
+	 *     <code>successHandler</code>表示登录成功后的URL处理器(与spring-security.xml中authentication-success-handler-ref配置作用一致)
 	 *     
 	 *     注: <code>Java</code>类配置与<code>XML</code>配置很相似,只不过这里用了
 	 *         <code>and</code>方法来转换各个对象
@@ -105,7 +115,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		    .antMatchers("/security/dba/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_DBA')")
 		    .and().formLogin().loginPage(LOGIN_URL)
 		    .loginProcessingUrl(LOGIN_PROCESSING_URL)
-		    .defaultSuccessUrl(DEFAULT_TARGET_URL)
+		    .successHandler(handler)
 		    .failureUrl(AUTHENTICATION_FAILURE_URL)
 		    .usernameParameter(USERNAME).passwordParameter(PASSWORD)
 		    .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL)
