@@ -24,8 +24,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -145,6 +147,36 @@ public class SecurityController {
 		
 		// 可以重定向到任意页面,但一般是重定向到登录页面
 		return "redirect:/security/login?logout";
+	}
+	
+	/**
+	 * 权限拒绝请求URL
+	 * 
+	 * @param model    视图model对象
+	 * @return         逻辑视图名称
+	 */
+	@RequestMapping(value = "/Access_Denied", method = RequestMethod.GET)
+	public String accessDeniedPage(ModelMap model) {
+		model.addAttribute("user", getPrincipal());
+		return "accessDenied";
+	}
+	
+	/**
+	 * 获取登录用户名
+	 * 
+	 * @return    登录用户名
+	 */
+	private String getPrincipal() {
+		String username;
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		if (principal instanceof UserDetails) {
+			username = ((UserDetails) principal).getUsername();
+			return username;
+		}
+		
+		username = principal.toString();
+		return username;
 	}
 
 }
