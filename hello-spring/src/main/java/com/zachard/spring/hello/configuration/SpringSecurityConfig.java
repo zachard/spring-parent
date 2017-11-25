@@ -62,6 +62,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final String LOGOUT_SUCCESS_URL = "/security/login?logout";
 	
 	/**
+	 * 配置拒绝授权请求URL
+	 */
+	private static final String ACCESS_DENIED_URL = "/Access_Denied";
+	
+	/**
 	 * 对Spring Security用户及角色进行管理, 相当于 spring-security.xml 文件中
 	 * <authentication-manager>作用
 	 * 
@@ -86,7 +91,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	 * <pre>
 	 *     <code>loginPage</code>函数设置登录请求URL
 	 *     <code>loginProcessingUrl</code>设置登录请求处理URL
-	 *     <code>defaultSuccessUrl</code>设置登录成功的URL
+	 *     <code>defaultSuccessUrl</code>设置登录成功的URL(想登录之后打开登录之前的页面,应该去除这个属性)
 	 *     <code>failureUrl</code>设置登录失败的URL
 	 *     
 	 *     注: <code>Java</code>类配置与<code>XML</code>配置很相似,只不过这里用了
@@ -104,7 +109,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		    .failureUrl(AUTHENTICATION_FAILURE_URL)
 		    .usernameParameter(USERNAME).passwordParameter(PASSWORD)
 		    .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL)
-		    .and().csrf();
+		    .and().csrf()
+		    .and().exceptionHandling().accessDeniedPage(ACCESS_DENIED_URL);
 	}
 
 }

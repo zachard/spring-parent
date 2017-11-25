@@ -14,7 +14,7 @@
 		<form-login 
 		    login-page="/login" 
 		    default-target-url="/index" 
-		    authentication-failure-url="/login?error" 
+		    authentication-failure-url="/Access_Denied" 
 		    username-parameter="username" 
 		    password-parameter="password" />
 		<logout logout-success-url="/login?logout" />

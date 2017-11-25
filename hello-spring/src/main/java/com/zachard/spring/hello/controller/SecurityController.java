@@ -16,7 +16,15 @@
 
 package com.zachard.spring.hello.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -104,6 +112,39 @@ public class SecurityController {
 		modelAndView.setViewName("login");
 		
 		return modelAndView;
+	}
+	
+	/**
+	 * 处理登出的请求接口
+	 * 
+	 * <pre>
+	 *     (1) {@link SecurityContextHolder}表示一个与当前执行线程关联的{@link SecurityContext}对象
+	 *     (2) {@link SecurityContextLogoutHandler}类通过修改{@link SecurityContextHolder}对象来指定登出操作
+	 *         {@link SecurityContextLogoutHandler}会校验{@link HttpSession}对象是否为<code>null</code>,
+	 *         并且当<code>clearAuthentication</code>设置为<code>true</code>时, 可以移除当前{@link SecurityContext}
+	 *         中的{@link Authentication}对象
+	 * </pre>
+	 * 
+	 * @param request    HTTP请求对象
+	 * @param response   HTTP响应对象
+	 * @return           重定向的视图页面
+	 */
+	@RequestMapping(value="/logout", method = RequestMethod.GET)
+	public String logout(HttpServletRequest request, HttpServletResponse response) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		if (auth != null) {
+			/*
+			 * SecurityContextLogoutHandler注销时,会执行一下操作:
+			 * (1) 若HTTP会话失效, 解除绑定到它的任何对象
+			 * (2) 删除 SecurityContext 的身份验证, 以防止并发请求的问题
+			 * (3) 显式地清除当前线程上下文值
+			 */
+			new SecurityContextLogoutHandler().logout(request, response, auth);
+		}
+		
+		// 可以重定向到任意页面,但一般是重定向到登录页面
+		return "redirect:/security/login?logout";
 	}
 
 }
