@@ -31,6 +31,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 
 import com.zachard.spring.hello.constant.SecurityConstant;
 
@@ -42,6 +43,7 @@ import com.zachard.spring.hello.constant.SecurityConstant;
  * @author zachard
  * @version 1.0.0
  */
+@Component
 public class SecuritySuccessUrlHandler extends SimpleUrlAuthenticationSuccessHandler {
 	
 	private static final Logger logger = LoggerFactory.getLogger(SecuritySuccessUrlHandler.class);
