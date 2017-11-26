@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.zachard.spring.hello.enums;
+package com.zachard.spring.hello.enums.security;
 
 import java.util.Collection;
 

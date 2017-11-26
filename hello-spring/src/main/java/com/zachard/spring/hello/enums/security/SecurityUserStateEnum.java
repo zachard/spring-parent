@@ -14,35 +14,40 @@
  *    limitations under the License.
  */
 
-package com.zachard.spring.hello.constant;
+package com.zachard.spring.hello.enums.security;
 
 /**
- * mybatis相关常量
+ * Spring 安全用户状态枚举类
+ * 
  * <pre>
  * </pre>
  *
  * @author zachard
  * @version 1.0.0
  */
-public interface MybatisConstant {
-	
-	String AUTO_MAPPING_BEHAVIOR_VALUE = "autoMappingBehavior";
-	String DEFAULT_EXECUTOR_TYPE_VALUE = "defaultExecutorType";
-	int DEFAULT_STATEMENT_TIMEOUT_VALUE = 2500;
-	
-	/**
-	 * mybatis映射文件配置
-	 */
-	String MYBATIS_MAPPER_RESOURCE_PATH = "classpath:com/zachard/spring/hello/mapper/file/*.xml";
-	
-	/**
-	 * mybatis别名扫描包
-	 */
-	String MYBATIS_TYPE_ALIASES_PACKAGE = "com.zachard.spring.hello.model.**";
-	
-	/**
-	 * mapper文件对应类的路径
-	 */
-	String MYBATIS_MAPPER_CLASS_PATH = "com.zachard.spring.hello.mapper";
+public enum SecurityUserStateEnum {
+	ACTIVE("Active"), 
+	INACTIVE("Inactive"), 
+	DELETED("Deleted"), 
+	LOCKED("Locked");
+
+	private String state;
+
+	private SecurityUserStateEnum(final String state) {
+		this.state = state;
+	}
+
+	public String getState() {
+		return this.state;
+	}
+
+	public String getName() {
+		return this.name();
+	}
+
+	@Override
+	public String toString() {
+		return this.state;
+	}
 
 }

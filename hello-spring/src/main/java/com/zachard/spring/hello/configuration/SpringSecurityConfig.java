@@ -17,11 +17,13 @@
 package com.zachard.spring.hello.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.zachard.spring.hello.handler.SecuritySuccessUrlHandler;
 
@@ -75,6 +77,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private SecuritySuccessUrlHandler handler;
 	
+	@Autowired
+	@Qualifier("securityUserDetailsService")
+	private UserDetailsService securityUserDetailsService;
+	
 	/**
 	 * 对Spring Security用户及角色进行管理, 相当于 spring-security.xml 文件中
 	 * <authentication-manager>作用
@@ -89,9 +95,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("zachard").password("123456").roles(ROLE_USER);
-		auth.inMemoryAuthentication().withUser("admin").password("123456").roles(ROLE_AMAIN);
-		auth.inMemoryAuthentication().withUser("dba").password("123456").roles(ROLE_AMAIN, ROLE_DBA);
+		// 基于内存的凭据存储
+//		auth.inMemoryAuthentication().withUser("zachard").password("123456").roles(ROLE_USER);
+//		auth.inMemoryAuthentication().withUser("admin").password("123456").roles(ROLE_AMAIN);
+//		auth.inMemoryAuthentication().withUser("dba").password("123456").roles(ROLE_AMAIN, ROLE_DBA);
+		
+		// 基于数据库的凭据存储
+		auth.userDetailsService(securityUserDetailsService);
 	}
 	
 	/**
@@ -115,10 +125,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		    .antMatchers("/security/dba/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_DBA')")
 		    .and().formLogin().loginPage(LOGIN_URL)
 		    .loginProcessingUrl(LOGIN_PROCESSING_URL)
-		    .successHandler(handler)
 		    .failureUrl(AUTHENTICATION_FAILURE_URL)
 		    .usernameParameter(USERNAME).passwordParameter(PASSWORD)
-		    .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL)
 		    .and().csrf()
 		    .and().exceptionHandling().accessDeniedPage(ACCESS_DENIED_URL);
 	}

@@ -14,35 +14,34 @@
  *    limitations under the License.
  */
 
-package com.zachard.spring.hello.constant;
+package com.zachard.spring.hello.mapper;
+
+import com.zachard.spring.hello.model.security.SecurityUser;
 
 /**
- * mybatis相关常量
+ * Spring 安全DAO查询接口
  * <pre>
  * </pre>
  *
  * @author zachard
  * @version 1.0.0
  */
-public interface MybatisConstant {
-	
-	String AUTO_MAPPING_BEHAVIOR_VALUE = "autoMappingBehavior";
-	String DEFAULT_EXECUTOR_TYPE_VALUE = "defaultExecutorType";
-	int DEFAULT_STATEMENT_TIMEOUT_VALUE = 2500;
+public interface SecurityUserMapper {
 	
 	/**
-	 * mybatis映射文件配置
+	 * 根据用户id查询用户信息
+	 * 
+	 * @param id    用户id
+	 * @return      用户信息
 	 */
-	String MYBATIS_MAPPER_RESOURCE_PATH = "classpath:com/zachard/spring/hello/mapper/file/*.xml";
+	SecurityUser queryUserById(Integer id);
 	
 	/**
-	 * mybatis别名扫描包
+	 * 根据用户名查询用户信息
+	 * 
+	 * @param username    用户名
+	 * @return            用户信息
 	 */
-	String MYBATIS_TYPE_ALIASES_PACKAGE = "com.zachard.spring.hello.model.**";
-	
-	/**
-	 * mapper文件对应类的路径
-	 */
-	String MYBATIS_MAPPER_CLASS_PATH = "com.zachard.spring.hello.mapper";
+	SecurityUser queryUserByUsername(String username);
 
 }
