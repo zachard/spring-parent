@@ -1,0 +1,36 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+	
+	<!-- 配置Spring Security拦截的URL请求(什么样的角色可以访问哪个请求) -->
+    <!-- 当不具备访问权限的角色访问URL时,会被重定向到一个登录表单(Spring Security自带的, URL为: /j_spring_security_login) -->
+    <!-- 此外可以设置Spring Security自带的登录表单, URL为: /j_spring_security_logout -->
+    <http auto-config="true">
+		<intercept-url pattern="/admin**" access="ROLE_USER" />
+		<form-login 
+		    login-page="/login" 
+		    default-target-url="/index" 
+		    authentication-failure-url="/Access_Denied" 
+		    authentication-success-handler-ref="securitySuccessUrlHandler" 
+		    username-parameter="username" 
+		    password-parameter="password" />
+		<logout logout-success-url="/login?logout" />
+		<csrf />
+	</http>
+
+    <!-- 权限认证管理,配置用户名、密码及权限  -->
+	<authentication-manager>
+	  <authentication-provider>
+	    <user-service>
+		  <user name="zachard" password="123456" authorities="ROLE_USER" />
+	    </user-service>
+	  </authentication-provider>
+	</authentication-manager>
+	
+	<beans:bean id="securitySuccessUrlHandler" class="com.zachard.spring.hello.handler.SecuritySuccessUrlHandler" />
+
+</beans:beans>
